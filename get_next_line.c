@@ -12,7 +12,7 @@
 
 #include "get_next_line.h"
 #include <stdio.h>
-
+/*
 char	*initial_check(int *close, int fd)
 {
 	char	*s1;
@@ -77,4 +77,64 @@ char	*get_next_line(int fd)
 	s1 = ft_substr(s1, i + 1, len - (i + 1));
 //	printf("{%s}", s2);
 	return (s2);
+}
+*/
+char    *find_end(char *line)
+{
+    int     i;
+    char    *s;
+
+    s = NULL;
+    i = 0;
+    while (line[i] && line[i] != 10)
+        i++;
+    if (!line[i])
+        return (s);
+    if (line[i] == 10)
+    {
+        line[i + 1] = 0; 
+        if (line[i + 1])
+            s = ft_substr(line, i + 1, ft_strlen(line) - (i + 1));
+    }
+    return (s);
+}
+
+char    *find_line(int fd, char *line)
+{
+    int     i;
+    int     read_value;
+    char    *buffer;
+
+	read_value = read(fd, buffer, BUFFER_SIZE);
+	printf("%i\n", read_value);
+    while (read_value != -1)
+    {
+		if (!read_value)
+			return (line);
+        if (!line)
+            line = ft_strdup("");
+		line = ft_strjoin(line, buffer);
+        i = 0;
+        while (line[i] && line[i] != 10)
+           i++;
+        if (line[i] == 10 || read_value == 0)
+             return (line);
+		read_value = read(fd, buffer, BUFFER_SIZE);
+    }
+    return (NULL);
+}
+
+char	*get_next_line(int fd)
+{
+    static char *remainder;
+    char        *line;
+    int         read_value;
+
+    if (BUFFER_SIZE <= 0 || fd < 0)
+        return (NULL);
+    line = find_line(fd, remainder);
+    if (!line)
+        return (NULL);
+    remainder = find_end(line);
+	return (line);
 }
