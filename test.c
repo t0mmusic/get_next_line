@@ -13,8 +13,6 @@ int main(int ac, char **av)
 	int		i;
 	char	*str;
 
-	if (ac != 3)
-		return (1);
 	fd = open(av[1], O_RDONLY);
 	fd1 = open(av[2], O_RDONLY);
 	str = get_next_line(fd);

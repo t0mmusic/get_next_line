@@ -6,21 +6,23 @@
 /*   By: jbrown <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 15:01:32 by jbrown            #+#    #+#             */
-/*   Updated: 2022/02/23 15:06:13 by jbrown           ###   ########.fr       */
+/*   Updated: 2022/02/23 15:50:18 by jbrown           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-static char	*freejoin(char *s1, char *s2)
+static void	free_line(t_line *line)
 {
-	char	*tmp;
+    t_line  *current;
 
-	tmp = s1;
-	s1 = ft_strjoin(s1, s2);
-	free(tmp);
-	tmp = NULL;
-	return (s1);
+    current = NULL;
+    if (line->next)
+        current = line->next;
+    free(line->str);
+    line->str = NULL;
+    free(line);
+    line = current;
 }
 
 static char	*find_end(char *line)
@@ -44,6 +46,7 @@ static char	*find_line(int fd, char *line, char *buffer)
 {
 	int		i;
 	int		read_value;
+    char    *tmp;
 
 	read_value = read(fd, buffer, BUFFER_SIZE);
 	while (read_value != -1)
@@ -53,7 +56,10 @@ static char	*find_line(int fd, char *line, char *buffer)
 		buffer[read_value] = 0;
 		if (!line)
 			line = ft_strdup("");
-		line = freejoin(line, buffer);
+        tmp = line;
+		line = ft_strjoin(line, buffer);
+        free(tmp);
+        tmp = NULL;
 		i = 0;
 		while (line[i] && line[i] != 10)
 			i++;
@@ -64,7 +70,7 @@ static char	*find_line(int fd, char *line, char *buffer)
 	return (NULL);
 }
 
-t_line	*find_fd(t_line **remainder, int fd)
+static t_line	*find_fd(t_line **remainder, int fd)
 {
 	t_line	*current;
 	t_line	*new;
@@ -92,7 +98,6 @@ char	*get_next_line(int fd)
 	t_line			*line;
 	char			*current;
 	char			*buffer;
-	int				read_value;
 
 	if (BUFFER_SIZE <= 0 || fd < 0)
 		return (NULL);
@@ -101,7 +106,10 @@ char	*get_next_line(int fd)
 	current = find_line(fd, line->str, buffer);
 	free(buffer);
 	if (!current)
+    {
+        free_line(line);
 		return (NULL);
+    }
 	line->str = find_end(current);
 	return (current);
 }

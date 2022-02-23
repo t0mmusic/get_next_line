@@ -6,7 +6,7 @@
 /*   By: jbrown <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 11:41:01 by jbrown            #+#    #+#             */
-/*   Updated: 2022/02/23 12:38:41 by jbrown           ###   ########.fr       */
+/*   Updated: 2022/02/23 15:48:10 by jbrown           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ char	*get_next_line(int fd)
 	static char	*remainder;
 	char		*line;
 	char		*buffer;
-	int			read_value;
 
 	if (BUFFER_SIZE <= 0 || fd < 0)
 		return (NULL);
