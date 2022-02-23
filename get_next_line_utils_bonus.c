@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jbrown <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/21 09:16:43 by jbrown            #+#    #+#             */
-/*   Updated: 2022/02/23 12:18:00 by jbrown           ###   ########.fr       */
+/*   Created: 2022/02/23 15:08:36 by jbrown            #+#    #+#             */
+/*   Updated: 2022/02/23 15:08:53 by jbrown           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
@@ -86,4 +86,15 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		r[i++] = s2[j++];
 	r[i] = '\0';
 	return (r);
+}
+
+t_line	*new_t_line(void)
+{
+	t_line	*new;
+
+	new = malloc(sizeof(*new));
+	new->fd = 0;
+	new->next = NULL;
+	new->str = NULL;
+	return (new);
 }

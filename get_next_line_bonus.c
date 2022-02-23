@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jbrown <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/18 11:41:01 by jbrown            #+#    #+#             */
-/*   Updated: 2022/02/23 12:38:41 by jbrown           ###   ########.fr       */
+/*   Created: 2022/02/23 15:01:32 by jbrown            #+#    #+#             */
+/*   Updated: 2022/02/23 15:06:13 by jbrown           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static char	*freejoin(char *s1, char *s2)
 {
@@ -64,20 +64,44 @@ static char	*find_line(int fd, char *line, char *buffer)
 	return (NULL);
 }
 
+t_line	*find_fd(t_line **remainder, int fd)
+{
+	t_line	*current;
+	t_line	*new;
+
+	if (*remainder)
+	{
+		current = *remainder;
+		while (current->fd != fd && current->next)
+			current = current->next;
+		if (current->fd == fd)
+			return (current);
+	}
+	new = new_t_line();
+	new->fd = fd;
+	if (!(*remainder))
+		*remainder = new;
+	else
+		current->next = new;
+	return (new);
+}
+
 char	*get_next_line(int fd)
 {
-	static char	*remainder;
-	char		*line;
-	char		*buffer;
-	int			read_value;
+	static t_line	*remainder;
+	t_line			*line;
+	char			*current;
+	char			*buffer;
+	int				read_value;
 
 	if (BUFFER_SIZE <= 0 || fd < 0)
 		return (NULL);
+	line = find_fd(&remainder, fd);
 	buffer = malloc(sizeof(*buffer) * (BUFFER_SIZE + 1));
-	line = find_line(fd, remainder, buffer);
+	current = find_line(fd, line->str, buffer);
 	free(buffer);
-	if (!line)
+	if (!current)
 		return (NULL);
-	remainder = find_end(line);
-	return (line);
+	line->str = find_end(current);
+	return (current);
 }
