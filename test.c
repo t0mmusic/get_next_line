@@ -9,20 +9,30 @@
 int main(int ac, char **av)
 {
 	int		fd;
-	int		fd1;
+	char	*fd_array;
 	int		i;
 	char	*str;
 
-	fd = open(av[1], O_RDONLY);
-	fd1 = open(av[2], O_RDONLY);
-	str = get_next_line(fd);
+	fd_array = malloc(sizeof(*fd_array) * (ac + 1));
 	i = 0;
+	while (++i <= ac)
+		fd_array[i - 1] = open(av[i], O_RDONLY);
+	fd_array[i] = 0;
+	str = get_next_line(fd_array[0]);
+	i = 1;
 	while (str)
 	{
 		printf("%s", str);
-		str = get_next_line(fd1);
-		printf("%s", str);
-		str = get_next_line(fd);
+		if (str && i == ac - 1)
+			i = 0;
+		str = get_next_line(fd_array[i]);
+		if (!str)
+			i = 0;
+		while (!str && i < ac && fd_array[i + 1])
+		{
+			i++;
+			str = get_next_line(fd_array[i]);
+		}
 		i++;
 	}
 	close(fd);

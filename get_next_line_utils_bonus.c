@@ -6,11 +6,13 @@
 /*   By: jbrown <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 15:08:36 by jbrown            #+#    #+#             */
-/*   Updated: 2022/02/23 15:47:26 by jbrown           ###   ########.fr       */
+/*   Updated: 2022/02/28 15:25:38 by jbrown           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
+
+/* Returns a string that is a fragment of the input string. */
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
@@ -39,6 +41,8 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (sub);
 }
 
+/* Finds the length of a null terminated array. */
+
 size_t	ft_strlen(const char *s)
 {
 	size_t	i;
@@ -48,6 +52,9 @@ size_t	ft_strlen(const char *s)
 		i++;
 	return (i);
 }
+
+/* duplicates a string and returns a copy
+ * assigned to heap memory. */
 
 char	*ft_strdup(const char *s1)
 {
@@ -66,6 +73,9 @@ char	*ft_strdup(const char *s1)
 	s2[i] = '\0';
 	return (s2);
 }
+
+/* returns a string that is a duplicate of the second
+ * input string appended to the first. */
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
@@ -87,6 +97,10 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	r[i] = '\0';
 	return (r);
 }
+
+/* Initialises a new t_line structure. This will keep
+ * track of the file desciptor, the remainder of the 
+ * string buffer, and the next element in the list. */
 
 t_line	*new_t_line(void)
 {

@@ -6,11 +6,14 @@
 /*   By: jbrown <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 11:41:01 by jbrown            #+#    #+#             */
-/*   Updated: 2022/02/23 15:48:10 by jbrown           ###   ########.fr       */
+/*   Updated: 2022/02/28 15:18:09 by jbrown           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+/* frees and reallocates a string while
+ * joining it to another string. */
 
 static char	*freejoin(char *s1, char *s2)
 {
@@ -22,6 +25,11 @@ static char	*freejoin(char *s1, char *s2)
 	tmp = NULL;
 	return (s1);
 }
+
+/* searches through string to find newline
+ * character or end of file. Null terminates
+ * the string at that point, then returns any
+ * leftovers for next function call. */
 
 static char	*find_end(char *line)
 {
@@ -39,6 +47,12 @@ static char	*find_end(char *line)
 	line[i + 1] = 0;
 	return (s);
 }
+
+/* reads number of bytes determined by BUFFER_SIZE
+ * and stores them in a buffer string. It then checks
+ * to see if a new line or the end of file are found in the
+ * static string. If they are not, the buffer is appended
+ * to the string and the read function is called again. */
 
 static char	*find_line(int fd, char *line, char *buffer)
 {
@@ -63,6 +77,12 @@ static char	*find_line(int fd, char *line, char *buffer)
 	}
 	return (NULL);
 }
+
+/* returns one line from a source determined by the fd.
+ * if the fd is not valid, returns nothing. Since this
+ * function uses a buffer of indeterminate size to take 
+ * information in chunks, any leftover data must be stored
+ * in the static char "remainder". */
 
 char	*get_next_line(int fd)
 {
