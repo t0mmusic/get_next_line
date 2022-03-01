@@ -9,4 +9,4 @@ The project must now work with multiple file descriptors. Only one static variab
 
 # Status
 
-Ongoing. Mandatory section is passing tests, bonus still being built.
+Complete. 125% with bonuses.
