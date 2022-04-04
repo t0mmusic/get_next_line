@@ -7,6 +7,10 @@ Any data left over by the buffer after a line has been found must be stored usin
 # Bonus
 The project must now work with multiple file descriptors. Only one static variable may be used.
 
+# Detail
+
+A document detailing how this project was made [can be found here](https://docs.google.com/document/d/1FvutHQDDMnCi16twcXkbLkOR-8jWBPc_b36hGDBtXk4/edit?usp=sharing).
+
 # Status
 
 Complete. 125% with bonuses.
